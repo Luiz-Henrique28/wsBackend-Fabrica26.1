@@ -1,0 +1,27 @@
+{% extends 'quiz/base.html' %}
+
+{% block title %}Resultado - GeoRank{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 500px; text-align: center;">
+
+    <h2 style="margin-bottom: 10px;">Partida Concluída! 🏆</h2>
+
+    <p style="font-size: 3rem; font-weight: 800; margin: 20px 0;
+              background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+              -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+              background-clip: text;">
+        {{ pontuacao }} pts
+    </p>
+
+    <p style="color: #ccc; font-size: 1.1rem; margin-bottom: 30px;">
+        Você acertou <strong style="color: white;">{{ acertos }}</strong> de <strong style="color: white;">{{ total }}</strong> perguntas.
+    </p>
+
+    <div style="display: flex; gap: 15px; justify-content: center;">
+        <a href="{{ url('jogar') }}" class="btn">Jogar Novamente</a>
+        <a href="{{ url('home') }}" class="btn" style="background: rgba(255,255,255,0.1); box-shadow: none;">Início</a>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
-from .models import Jogador
+from .models import Jogador, Partida
+from . import services
 
 def home(request):
     return render(request, 'quiz/home.html')
@@ -16,5 +18,70 @@ def register(request):
             return redirect('home')
     else:
         form = UserCreationForm()
-    
     return render(request, 'quiz/register.html', {'form': form})
+
+@login_required
+def jogar(request):
+    perguntas = services.gerar_perguntas(quantidade=10)
+    request.session['perguntas'] = perguntas
+    request.session['indice'] = 0
+    request.session['acertos'] = 0
+    return redirect('pergunta')
+
+@login_required
+def pergunta(request):
+    perguntas = request.session.get('perguntas')
+    indice = request.session.get('indice', 0)
+
+    if not perguntas or indice >= len(perguntas):
+        return redirect('resultado')
+
+    return render(request, 'quiz/pergunta.html', {
+        'pergunta': perguntas[indice],
+        'numero': indice + 1,
+        'total': len(perguntas),
+    })
+
+@login_required
+def responder(request):
+    if request.method != 'POST':
+        return redirect('pergunta')
+
+    perguntas = request.session.get('perguntas', [])
+    indice = request.session.get('indice', 0)
+    acertos = request.session.get('acertos', 0)
+
+    resposta = request.POST.get('resposta')
+    capital_correta = perguntas[indice]['capital_correta']
+
+    if resposta == capital_correta:
+        acertos += 1
+        request.session['acertos'] = acertos
+
+    request.session['indice'] = indice + 1
+    return redirect('pergunta')
+
+@login_required
+def resultado(request):
+    acertos = request.session.get('acertos', 0)
+    total = len(request.session.get('perguntas', []))
+    pontuacao = acertos * 10
+
+    jogador, _ = Jogador.objects.get_or_create(usuario=request.user)
+    Partida.objects.create(
+        jogador=jogador,
+        modo='capitais',
+        total_perguntas=total,
+        acertos=acertos,
+        pontuacao=pontuacao,
+    )
+    jogador.pontuacao_total += pontuacao
+    jogador.save()
+
+    request.session.flush()
+
+    return render(request, 'quiz/resultado.html', {
+        'acertos': acertos,
+        'total': total,
+        'pontuacao': pontuacao,
+    })

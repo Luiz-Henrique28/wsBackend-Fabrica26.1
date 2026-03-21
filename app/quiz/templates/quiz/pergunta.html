@@ -1,0 +1,36 @@
+{% extends 'quiz/base.html' %}
+
+{% block title %}Pergunta {{ numero }}/{{ total }} - GeoRank{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 600px; text-align: center;">
+
+    <p style="color: #aaa; margin-bottom: 20px; font-size: 0.95rem;">
+        Pergunta {{ numero }} de {{ total }}
+    </p>
+
+    <p style="font-size: 1.2rem; margin-bottom: 20px; color: #ccc;">
+        Qual é a capital de <strong style="color: white;">{{ pergunta.pais }}</strong>?
+    </p>
+
+    <img src="{{ pergunta.bandeira }}" alt="Bandeira de {{ pergunta.pais }}"
+         style="width: 160px; border-radius: 8px; margin-bottom: 25px; border: 2px solid rgba(255,255,255,0.1);">
+
+    <form method="post" action="{{ url('responder') }}">
+        {{ csrf_input }}
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            {% for opcao in pergunta.opcoes %}
+                <button type="submit" name="resposta" value="{{ opcao }}"
+                        style="padding: 14px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+                               border-radius: 12px; color: white; font-size: 1rem; cursor: pointer;
+                               transition: background 0.2s, border-color 0.2s;"
+                        onmouseover="this.style.background='rgba(0,210,255,0.15)'; this.style.borderColor='#00d2ff';"
+                        onmouseout="this.style.background='rgba(255,255,255,0.07)'; this.style.borderColor='rgba(255,255,255,0.15)';">
+                    {{ opcao }}
+                </button>
+            {% endfor %}
+        </div>
+    </form>
+
+</div>
+{% endblock %}
