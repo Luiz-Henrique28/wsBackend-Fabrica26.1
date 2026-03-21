@@ -1,0 +1,61 @@
+{% extends 'quiz/base.html' %}
+
+{% block title %}Meu Perfil - GeoRank{% endblock %}
+
+{% block content %}
+<div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+
+    <div class="card" style="flex: 1; min-width: 300px; max-width: 400px; padding: 25px;">
+        <h2 style="margin-bottom: 15px;"><i class="fa-solid fa-id-badge"></i> Meu Perfil</h2>
+        <p style="font-size: 1.2rem; color: #00d2ff; font-weight: 800; margin-bottom: 10px;">{{ jogador.pontuacao_total }} Pontos Totais</p>
+        
+        <form method="post" action="{{ url('perfil') }}" style="margin-top: 20px; margin-bottom: 30px;">
+            {{ csrf_input }}
+            <div class="form-group">
+                <b>Biografia (Fale sobre você):</b>
+                <textarea name="bio" rows="4" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; outline: none; resize: vertical;">{% if jogador.bio %}{{ jogador.bio }}{% endif %}</textarea>
+            </div>
+            <button type="submit" class="btn" style="width: 100%; padding: 10px;"><i class="fa-solid fa-floppy-disk"></i> Salvar Alterações</button>
+        </form>
+
+        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px;">
+        
+        <form method="post" action="{{ url('deletar_conta') }}" onsubmit="return confirm('Tem certeza absoluta? Isso apagará todos os seus pontos e histórico permanentemente!');">
+            {{ csrf_input }}
+            <button type="submit" class="btn" style="width: 100%; background: rgba(255,75,75,0.2); border: 1px solid rgba(255,75,75,0.4); color: #ff6b6b; box-shadow: none;">
+                <i class="fa-solid fa-triangle-exclamation"></i> Excluir Minha Conta (Irreversível)
+            </button>
+        </form>
+    </div>
+
+    <div class="card" style="flex: 2; min-width: 350px; padding: 25px;">
+        <h2 style="margin-bottom: 20px;"><i class="fa-solid fa-clock-rotate-left"></i> Histórico de Partidas</h2>
+        
+        <div style="background: rgba(0,0,0,0.2); border-radius: 12px; overflow: auto; max-height: 400px;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="background: rgba(255,255,255,0.05);">
+                        <th style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">Data</th>
+                        <th style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">Acertos</th>
+                        <th style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: right;">Ganhos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in partidas %}
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                        <td style="padding: 15px; color: #ccc;">{{ p.data.strftime('%d/%m/%Y %H:%M') }}</td>
+                        <td style="padding: 15px;">{{ p.acertos }}/{{ p.total_perguntas }}</td>
+                        <td style="padding: 15px; text-align: right; color: #00d2ff; font-weight: bold;">+{{ p.pontuacao }} pts</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="3" style="padding: 20px; text-align: center; color: #888;">Você ainda não jogou nenhuma partida.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

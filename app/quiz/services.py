@@ -24,15 +24,34 @@ def gerar_perguntas(quantidade=10):
     for pais in selecionados:
         outros = [p for p in paises if p != pais]
         opcoes_erradas = random.sample(outros, 3)
+        tipo = random.choice(['capital', 'bandeira', 'populacao'])
+
+        if tipo == 'capital':
+            texto = f"Qual é a capital de {pais['name']['common']}?"
+            correta = pais['capital'][0]
+            opcoes = [correta] + [p['capital'][0] for p in opcoes_erradas]
+            imagem = ""
+        
+        elif tipo == 'bandeira':
+            texto = "A qual país pertence esta bandeira?"
+            correta = pais['name']['common']
+            opcoes = [correta] + [p['name']['common'] for p in opcoes_erradas]
+            imagem = pais['flags'].get('png', '')
+            
+        elif tipo == 'populacao':
+            grupo = [pais] + opcoes_erradas
+            pais_maior = max(grupo, key=lambda x: x.get('population', 0))
+            
+            texto = "Qual destes países possui a MAIOR população?"
+            correta = pais_maior['name']['common']
+            opcoes = [p['name']['common'] for p in grupo]
+            imagem = ""
 
         pergunta = {
-            'pais': pais['name']['common'],
-            'bandeira': pais['flags'].get('png', ''),
-            'capital_correta': pais['capital'][0],
-            'opcoes': sorted(
-                [pais['capital'][0]] + [p['capital'][0] for p in opcoes_erradas],
-                key=lambda x: random.random()
-            )
+            'texto': texto,
+            'bandeira': imagem,
+            'capital_correta': correta,
+            'opcoes': sorted(opcoes, key=lambda x: random.random())
         }
         perguntas.append(pergunta)
 

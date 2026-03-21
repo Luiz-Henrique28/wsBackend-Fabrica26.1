@@ -14,12 +14,12 @@
     {% if not request.user.is_authenticated %}
         <div style="padding: 20px; background: rgba(0,0,0,0.2); border-radius: 12px; margin-bottom: 20px;">
             <p style="margin-bottom: 15px; font-weight: 300;">Para imergir no desafio, crie sua conta agora mesmo.</p>
-            <a href="{{ url('register') }}" class="btn" style="font-size: 1.2rem; padding: 12px 32px;">INICIAR JORNADA</a>
+            <a href="{{ url('register') }}" class="btn" style="font-size: 1.2rem; padding: 12px 32px;"><i class="fa-solid fa-play"></i> INICIAR JORNADA</a>
         </div>
     {% else %}
         <div style="padding: 20px; background: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.2); border-radius: 12px;">
             <p style="margin-bottom: 20px; font-size: 1.2rem;">Pronto para o desafio de hoje?</p>
-            <a href="{{ url('jogar') }}" class="btn" style="font-size: 1.2rem; padding: 15px 40px; box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);">🎮 JOGAR AGORA</a>
+            <a href="{{ url('jogar') }}" class="btn" style="font-size: 1.2rem; padding: 15px 40px; box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);"><i class="fa-solid fa-gamepad"></i> JOGAR AGORA</a>
         </div>
     {% endif %}
 </div>

@@ -85,3 +85,32 @@ def resultado(request):
         'total': total,
         'pontuacao': pontuacao,
     })
+
+def ranking(request):
+    jogadores = Jogador.objects.select_related('usuario').order_by('-pontuacao_total')[:10]
+    return render(request, 'quiz/ranking.html', {'jogadores': jogadores})
+
+@login_required
+def perfil(request):
+    jogador, _ = Jogador.objects.get_or_create(usuario=request.user)
+    
+    if request.method == 'POST':
+        nova_bio = request.POST.get('bio', '').strip()
+        jogador.bio = nova_bio
+        jogador.save()
+        return redirect('perfil')
+        
+    partidas = Partida.objects.filter(jogador=jogador).order_by('-data')
+    return render(request, 'quiz/perfil.html', {
+        'jogador': jogador,
+        'partidas': partidas
+    })
+
+@login_required
+def deletar_conta(request):
+    if request.method == 'POST':
+        user = request.user
+        user.delete()
+        return redirect('home')
+    return redirect('perfil')
+

@@ -10,11 +10,13 @@
     </p>
 
     <p style="font-size: 1.2rem; margin-bottom: 20px; color: #ccc;">
-        Qual é a capital de <strong style="color: white;">{{ pergunta.pais }}</strong>?
+        <strong style="color: white; font-size: 1.4rem;">{{ pergunta.texto }}</strong>
     </p>
 
-    <img src="{{ pergunta.bandeira }}" alt="Bandeira de {{ pergunta.pais }}"
-         style="width: 160px; border-radius: 8px; margin-bottom: 25px; border: 2px solid rgba(255,255,255,0.1);">
+    {% if pergunta.bandeira %}
+    <img src="{{ pergunta.bandeira }}" alt="Bandeira"
+         style="width: 160px; border-radius: 8px; margin-bottom: 25px; border: 2px solid rgba(255,255,255,0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+    {% endif %}
 
     <form method="post" action="{{ url('responder') }}">
         {{ csrf_input }}
