@@ -1,0 +1,26 @@
+{% extends 'quiz/base.html' %}
+
+{% block title %}Início - GeoRank{% endblock %}
+
+{% block content %}
+<div class="card" style="text-align: center; max-width: 600px;">
+    <h1 style="font-size: 2.5rem; margin-bottom: 15px; background: linear-gradient(90deg, #00d2ff, #3a7bd5); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        GeoRank Challenge
+    </h1>
+    <p style="font-size: 1.1rem; color: #ccc; margin-bottom: 30px; line-height: 1.6;">
+        Desafie seus conhecimentos geográficos! Tente adivinhar bandeiras, capitais e fature pontos no ranking mundial.
+    </p>
+    
+    {% if not request.user.is_authenticated %}
+        <div style="padding: 20px; background: rgba(0,0,0,0.2); border-radius: 12px; margin-bottom: 20px;">
+            <p style="margin-bottom: 15px; font-weight: 300;">Para imergir no desafio, crie sua conta agora mesmo.</p>
+            <a href="{{ url('register') }}" class="btn" style="font-size: 1.2rem; padding: 12px 32px;">INICIAR JORNADA</a>
+        </div>
+    {% else %}
+        <div style="padding: 20px; background: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.2); border-radius: 12px;">
+            <p style="margin-bottom: 20px; font-size: 1.2rem;">Pronto para o desafio de hoje?</p>
+            <a href="#" class="btn" style="font-size: 1.2rem; padding: 15px 40px; box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);">🎮 JOGAR AGORA</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

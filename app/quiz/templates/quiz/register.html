@@ -1,0 +1,25 @@
+{% extends 'quiz/base.html' %}
+
+{% block title %}Criar Conta{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 450px;">
+    <h2 style="margin-bottom: 15px; text-align: center; color: white;">Crie seu Perfil 🌍</h2>
+    <form method="post">
+        {{ csrf_input }}
+        
+        {% for field in form %}
+            <div class="form-group">
+                <b>{{ field.label }}</b>
+                {{ field }}
+                {% if field.errors %}
+                    <span style="color: #ff6b6b; font-size: 0.85rem; display: block; margin-top: 5px;">{{ field.errors.0 }}</span>
+                {% endif %}
+                <small style="color: #666; font-size: 0.8rem; display: block; margin-top: 4px;">{{ field.help_text }}</small>
+            </div>
+        {% endfor %}
+        
+        <button type="submit" class="btn" style="width: 100%; padding: 14px; font-size: 1.1rem; margin-top: 10px;">Cadastrar</button>
+    </form>
+</div>
+{% endblock %}
