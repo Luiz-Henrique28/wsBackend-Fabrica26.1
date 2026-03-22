@@ -4,6 +4,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from .models import Jogador, Partida
 from . import services
+from django.db.models import Count
 
 def home(request):
     return render(request, 'quiz/home.html')
@@ -87,7 +88,7 @@ def resultado(request):
     })
 
 def ranking(request):
-    jogadores = Jogador.objects.select_related('usuario').order_by('-pontuacao_total')[:10]
+    jogadores = Jogador.objects.select_related('usuario').annotate(num_partidas=Count('partidas')).order_by('-pontuacao_total')[:10]
     return render(request, 'quiz/ranking.html', {'jogadores': jogadores})
 
 @login_required

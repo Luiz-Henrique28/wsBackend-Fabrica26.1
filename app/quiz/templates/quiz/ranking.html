@@ -11,8 +11,9 @@
         <table style="width: 100%; border-collapse: collapse; text-align: left;">
             <thead>
                 <tr style="background: rgba(255,255,255,0.05);">
-                    <th style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">Pós</th>
+                    <th style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">Pos</th>
                     <th style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">Jogador</th>
+                    <th style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center;">Partidas</th>
                     <th style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: right;">Pontos</th>
                 </tr>
             </thead>
@@ -24,11 +25,12 @@
                         {{ jog.usuario.username }}
                         {% if jog.usuario == request.user %} (Você) {% endif %}
                     </td>
+                    <td style="padding: 15px; text-align: center; color: #aaa;">{{ jog.num_partidas }}</td>
                     <td style="padding: 15px; text-align: right; color: #3a7bd5; font-weight: 800;">{{ jog.pontuacao_total }}</td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="3" style="padding: 20px; text-align: center; color: #888;">Nenhuma partida jogada ainda. Seja o primeiro!</td>
+                    <td colspan="4" style="padding: 20px; text-align: center; color: #888;">Nenhuma partida jogada ainda. Seja o primeiro!</td>
                 </tr>
                 {% endfor %}
             </tbody>
