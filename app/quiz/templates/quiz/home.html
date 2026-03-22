@@ -8,13 +8,13 @@
         GeoRank Challenge
     </h1>
     <p style="font-size: 1.1rem; color: #ccc; margin-bottom: 30px; line-height: 1.6;">
-        Desafie seus conhecimentos geográficos! Tente adivinhar bandeiras, capitais e fature pontos no ranking mundial.
+        Desafie seus conhecimentos geográficos! Adivinhe bandeiras, capitais e conquiste seu lugar no ranking.
     </p>
     
     {% if not request.user.is_authenticated %}
         <div style="padding: 20px; background: rgba(0,0,0,0.2); border-radius: 12px; margin-bottom: 20px;">
-            <p style="margin-bottom: 15px; font-weight: 300;">Para imergir no desafio, crie sua conta agora mesmo.</p>
-            <a href="{{ url('register') }}" class="btn" style="font-size: 1.2rem; padding: 12px 32px;"><i class="fa-solid fa-play"></i> INICIAR JORNADA</a>
+            <p style="margin-bottom: 15px; font-weight: 300;">Para começar a jogar, crie sua conta agora mesmo.</p>
+            <a href="{{ url('register') }}" class="btn" style="font-size: 1.2rem; padding: 12px 32px;"> INICIAR </a>
         </div>
     {% else %}
         <div style="padding: 20px; background: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.2); border-radius: 12px;">

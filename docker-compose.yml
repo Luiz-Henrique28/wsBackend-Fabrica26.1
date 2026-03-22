@@ -5,11 +5,8 @@ services:
     image: mysql:8.0
     container_name: db_georank
     restart: always
-    environment:
-      MYSQL_DATABASE: georank_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-      MYSQL_ROOT_PASSWORD: root
+    env_file:
+      - .env
     ports:
       - "3306:3306"
     volumes:
@@ -28,14 +25,8 @@ services:
       - ./app:/code
     ports:
       - "8000:8000"
-    environment:
-      - DB_NAME=georank_db
-      - DB_USER=user
-      - DB_PASSWORD=password
-      - DB_HOST=db
-      - DB_PORT=3306
-      - SECRET_KEY=dev-secret-key-change-in-production
-      - DEBUG=True
+    env_file:
+      - .env
     depends_on:
       db:
         condition: service_healthy

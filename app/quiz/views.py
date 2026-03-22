@@ -79,7 +79,9 @@ def resultado(request):
     jogador.pontuacao_total += pontuacao
     jogador.save()
 
-    request.session.flush()
+    request.session.pop('perguntas', None)
+    request.session.pop('indice', None)
+    request.session.pop('acertos', None)
 
     return render(request, 'quiz/resultado.html', {
         'acertos': acertos,
