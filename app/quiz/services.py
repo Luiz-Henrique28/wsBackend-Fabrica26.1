@@ -22,10 +22,10 @@ def buscar_paises():
 def gerar_perguntas(quantidade=10):
     paises = buscar_paises()
     selecionados = random.sample(paises, quantidade)
+    outros = [p for p in paises if p not in selecionados]
     perguntas = []
 
     for pais in selecionados:
-        outros = [p for p in paises if p != pais]
         opcoes_erradas = random.sample(outros, 3)
         tipo = random.choice(['capital', 'bandeira', 'populacao'])
 
@@ -50,11 +50,12 @@ def gerar_perguntas(quantidade=10):
             opcoes = [p['name']['common'] for p in grupo]
             imagem = ""
 
+        random.shuffle(opcoes)
         pergunta = {
             'texto': texto,
             'bandeira': imagem,
             'capital_correta': correta,
-            'opcoes': sorted(opcoes, key=lambda x: random.random())
+            'opcoes': opcoes
         }
         perguntas.append(pergunta)
 
